@@ -76,10 +76,8 @@ setFruit :: State -> IO State
 setFruit state = case fruit state of 
     Just _ -> return state
     Nothing -> do
-        x <- randomRIO (0, b_l-1)
-        y <- randomRIO (0, b_h-1)
+        (x, y) <- (,) <$> randomRIO (0, b_l-1) <*> randomRIO (0, b_h-1)
         return $ State {snake=snake state, movement=movement state, fruit=Just (x,y)}
-
 
 gameOver state = outRange next_point || hitItsef next_point
     where next_point = head . snake $ state
